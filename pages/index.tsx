@@ -22,8 +22,8 @@ const contractConfig = {
 const Home: NextPage = () => {
   const [mounted, setMounted] = React.useState(false);
   const [tokenAmount, setTokenAmount] = React.useState('');
-  const [totalMinted, setTotalMinted] = React.useState(0);
-  const [multiAddress, setMultipleAddress] = React.useState([])
+  const [totalMinted, setTotalMinted] = React.useState('');
+  const [multiAddress, setMultipleAddress] = React.useState<string[]>([]);
   const [receiversAdd, setReceiversAdd] = React.useState('')
   const { isConnected, address } = useAccount();
   const { data, isError, isLoading } = useBalance({
@@ -86,12 +86,12 @@ const Home: NextPage = () => {
 
   React.useEffect(() => {
     if (totalSupplyData) {
-      let supply = ethers.formatEther(totalSupplyData)
+      let supply = ethers.formatEther(totalSupplyData.toString())
       setTotalMinted(supply);
     }
   }, [totalSupplyData]);
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: any) => {
     setTokenAmount(e.target.value);
   };
 
@@ -183,7 +183,6 @@ const Home: NextPage = () => {
                   placeholder='Enter Addresses'
                   onChange={(e)=>{
                     const add = e.target.value.split('\n');
-                    console.log("multi transfer",add)
 
                     setMultipleAddress(add);
                   }}
